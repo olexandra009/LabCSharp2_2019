@@ -1,7 +1,7 @@
 ﻿using System;
 using LaboratoryCSharp_2.Models;
 using LaboratoryCSharp_2.Tools.Navigation;
-using LaboratoryCSharp_2.ViewModels;
+
 
 namespace LaboratoryCSharp_2.Tools.Managers
 {

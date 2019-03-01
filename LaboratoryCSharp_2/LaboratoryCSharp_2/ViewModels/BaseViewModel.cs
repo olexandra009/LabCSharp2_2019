@@ -7,7 +7,7 @@ namespace LaboratoryCSharp_2.ViewModels
 
     internal abstract class BaseViewModel : INotifyPropertyChanged
     {
-        public abstract void Refresher();
+       public abstract void Refresher();
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

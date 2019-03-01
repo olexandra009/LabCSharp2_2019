@@ -8,10 +8,10 @@ namespace LaboratoryCSharp_2.Models
         private string _surname;
         private string _email;
         private DateTime _birthday;
-        private bool _isAdult;
-        private string _sunSign;
-        private string _chineseSign;
-        private bool _isBirthday;
+        private readonly bool _isAdult;
+        private readonly string _sunSign;
+        private readonly string _chineseSign;
+        private readonly bool _isBirthday;
 
         internal ref readonly bool IsAdult => ref _isAdult;
 
@@ -21,7 +21,7 @@ namespace LaboratoryCSharp_2.Models
 
         internal ref readonly bool IsBirthday => ref _isBirthday;
 
-        private Person(string name, string surname, string email)
+        internal Person(string name, string surname, string email)
         {
             _name = name;
             _surname = surname;
@@ -34,7 +34,7 @@ namespace LaboratoryCSharp_2.Models
 
         }
 
-        private Person(string name, string surname, DateTime birthday)
+        internal Person(string name, string surname, DateTime birthday)
         {
             _name = name;
             _surname = surname;
