@@ -93,7 +93,7 @@ namespace LaboratoryCSharp_2.Models
         {
 
             if (dayBirth < 18) return Enum.GetName(typeof(WestHoroscopeList), monthBirth);
-            if (dayBirth > 23) return Enum.GetName(typeof(WestHoroscopeList), monthBirth);
+            if (dayBirth > 23) return Enum.GetName(typeof(WestHoroscopeList), monthBirth+1);
             switch (monthBirth)
             {
                 case 2:
