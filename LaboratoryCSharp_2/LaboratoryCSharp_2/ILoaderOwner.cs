@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
 
 namespace LaboratoryCSharp_2
@@ -14,3 +9,4 @@ namespace LaboratoryCSharp_2
         bool IsControlEnabled { get; set; }
     }
 }
+
