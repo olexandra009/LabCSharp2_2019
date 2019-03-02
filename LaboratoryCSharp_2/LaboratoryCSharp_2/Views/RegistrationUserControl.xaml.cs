@@ -9,7 +9,7 @@ namespace LaboratoryCSharp_2.Views
     /// </summary>
     public partial class RegistrationUserControl : INavigatable
     {
-        public RegistrationUserControl()
+        internal RegistrationUserControl()
         {
             InitializeComponent();
             DataContext = new RegistrationUserControlViewModel();
