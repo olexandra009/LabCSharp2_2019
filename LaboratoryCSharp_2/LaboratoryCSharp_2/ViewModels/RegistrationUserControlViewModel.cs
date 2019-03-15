@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using LaboratoryCSharp_2.Exceptions;
 using LaboratoryCSharp_2.Models;
 using LaboratoryCSharp_2.Tools;
 using LaboratoryCSharp_2.Tools.Managers;
@@ -96,11 +97,31 @@ namespace LaboratoryCSharp_2.ViewModels
             LoaderManager.Instance.ShowLoader();
             var result = await Task.Run(() =>
             {
-                if (!CorrectAge()) return false;
-                if (!CorrectEmail()) return false;
-                if (!CorrectNameSurname()) return false;
-                Thread.Sleep(100);
-                StationManager.CurrentPerson = new Person(_name, _surname, _email, (DateTime) _birthday);
+                // if (!CorrectAge()) return false;
+               //   if (!CorrectEmail()) return false;
+              //  if (!CorrectNameSurname()) return false;
+                try
+                {
+
+                    StationManager.CurrentPerson = new Person(_name, _surname, _email, (DateTime) _birthday);
+                    Thread.Sleep(100);
+                }
+                catch (PersonBirthDateException exp)
+                {
+                    MessageBox.Show(exp.Message);
+                    return false;
+                }
+                catch (InvalidEmailException e)
+                {
+                    MessageBox.Show(e.Message);
+                    return false;
+                }
+                catch (IncorrectArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return false;
+                }
+
                 return true;
             });
             LoaderManager.Instance.HideLoader();
@@ -126,13 +147,14 @@ namespace LaboratoryCSharp_2.ViewModels
 
         private bool CorrectEmail()
         {
-            if (!(new EmailAddressAttribute().IsValid(_email)))
+            if (!new EmailAddressAttribute().IsValid(_email))
             {
                 MessageBox.Show("Input correct email address");
                 return false;
             }
 
             return true;
+
         }
 
         private bool CorrectAge()

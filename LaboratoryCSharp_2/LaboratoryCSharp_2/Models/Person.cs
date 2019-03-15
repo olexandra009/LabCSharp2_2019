@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Windows;
+using LaboratoryCSharp_2.Exceptions;
 
 namespace LaboratoryCSharp_2.Models
 {
@@ -21,12 +24,22 @@ namespace LaboratoryCSharp_2.Models
 
         internal ref readonly bool IsBirthday => ref _isBirthday;
 
-        internal Person(string name, string surname, string email)
+        internal Person(string name, string surname, string email) :this(name, surname, email, DateTime.Today)
         {
+       
+        }
+
+        internal Person(string name, string surname, DateTime? birthday) : this(name, surname, null, birthday)
+        {
+        
+        }
+        internal Person(string name, string surname, string email, DateTime? birthday)
+        {
+            InputValidation(birthday, email, name, surname);
             _name = name;
             _surname = surname;
             _email = email;
-            _birthday = DateTime.Today;
+            _birthday = (DateTime)birthday;
             _isAdult = (AgeCalculator(_birthday) >= 18);
             _isBirthday = (_birthday.Day == DateTime.Today.Day && _birthday.Month == DateTime.Today.Month);
             _chineseSign = Enum.GetName(typeof(EastHoroscopeList), _birthday.Year % 12);
@@ -34,31 +47,34 @@ namespace LaboratoryCSharp_2.Models
 
         }
 
-        internal Person(string name, string surname, DateTime birthday)
+        private void InputValidation(DateTime? birthday, string email, string name, string surname)
         {
-            _name = name;
-            _surname = surname;
-            _birthday = birthday;
-            _isAdult = (AgeCalculator(birthday) >= 18);
-            _isBirthday = (birthday.Day == DateTime.Today.Day && birthday.Month == DateTime.Today.Month);
-            _chineseSign = Enum.GetName(typeof(EastHoroscopeList), birthday.Year % 12);
-            _sunSign = CreateWestHoroscope(birthday.Day, birthday.Month);
+            if (birthday == null)
+            {
+               throw new PersonBirthDateException("Input correct date of birthday", null);
+            }
+            if (birthday > DateTime.Today)
+            {
+                throw new PersonBirthDateException($"Error: the date of birthday in future. {Environment.NewLine}Please, input correct date of birthday", birthday);
 
-
+            }
+            DateTime last = new DateTime(DateTime.Today.Year - 135, DateTime.Today.Month, DateTime.Today.Day);
+            if (birthday < last)
+            {
+                throw new PersonBirthDateException($"Error:person cannot be older than 135 years.{Environment.NewLine}Please, enter correct information about your birthday." +
+                                                   $"{Environment.NewLine}  (If you are vampire, please compute your year of birthday plus twelve while entered information will be correct)", birthday);
+            }
+            if (!new EmailAddressAttribute().IsValid(email))
+            {
+                throw new InvalidEmailException("Input correct email address", email);
+               
+            }
+           if (String.IsNullOrWhiteSpace(name))
+                throw new IncorrectArgumentException("Input correct name", name);
+           if (String.IsNullOrWhiteSpace(surname))
+               throw new IncorrectArgumentException("Input correct surname", surname);
         }
-        internal Person(string name, string surname, string email, DateTime birthday)
-        {
-            _name = name;
-            _surname = surname;
-            _email = email;
-            _birthday = birthday;
-            _isAdult = (AgeCalculator(birthday) >= 18);
-            _isBirthday = (birthday.Day == DateTime.Today.Day && birthday.Month == DateTime.Today.Month);
-            _chineseSign = Enum.GetName(typeof(EastHoroscopeList), birthday.Year % 12);
-            _sunSign = CreateWestHoroscope(birthday.Day, birthday.Month);
 
-
-        }
         internal string Name
         {
             get => _name;

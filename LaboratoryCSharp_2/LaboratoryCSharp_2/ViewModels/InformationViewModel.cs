@@ -14,20 +14,20 @@ namespace LaboratoryCSharp_2.ViewModels
         private string _email;
         private string _birthday;
         private string _isAdult;
-        private string _chinseSign;
+        private string _chineseSign;
         private string _sunSign;
         private string _isBirthday;
-        public Person Person
+        internal Person Person
         {
             get => _person;
-            set { _person = value; OnPropertyChanged();}
+            private set { _person = value; OnPropertyChanged();}
         }
 
         public string Name
         {
 
             get =>_name;
-            set
+            private set
             {
                 _name = value;
                 OnPropertyChanged();
@@ -37,24 +37,31 @@ namespace LaboratoryCSharp_2.ViewModels
         public string Surname
         {
             get => _surname;
-            set { _surname = value; OnPropertyChanged(); }
+            private set
+            {
+                _surname = value;
+                OnPropertyChanged();
+            }
         }
         public string Email
         {
             get => _email;
-            set { _email = value; OnPropertyChanged(); }
+            private set
+            { _email = value; OnPropertyChanged(); }
         }
         public string Birthday
         {
             get => _birthday;
-            set { _birthday = value; OnPropertyChanged(); }
+            private set
+            { _birthday = value; OnPropertyChanged(); }
             
 
         }
         public string IsAdult
         {
             get => _isAdult;
-            set { _isAdult = value; OnPropertyChanged(); }
+            private set
+            { _isAdult = value; OnPropertyChanged(); }
 
          
         }
@@ -63,30 +70,27 @@ namespace LaboratoryCSharp_2.ViewModels
         public string SunSign
         {
             get => _sunSign;
-            set { _sunSign = value; OnPropertyChanged(); }
+            private set
+            { _sunSign = value; OnPropertyChanged(); }
         } 
 
         public string ChineseSign
         {
-            get => _chinseSign;
-            set { _chinseSign = value; OnPropertyChanged(); }
+            get => _chineseSign;
+            private set
+            { _chineseSign = value; OnPropertyChanged(); }
         }
 
         public string IsBirthday
         {
             get => _isBirthday;
-            set { _isBirthday = value; OnPropertyChanged(); }
+            private set
+            { _isBirthday = value; OnPropertyChanged(); }
         }
 
         private ICommand _backCommand;
         private ICommand _closeCommand;
-        public ICommand CloseCommand
-        {
-            get
-            {
-             return _closeCommand?? (_closeCommand = new RelayCommand<object>(CloseCommandImplementation));   
-            }
-        }
+        public ICommand CloseCommand => _closeCommand?? (_closeCommand = new RelayCommand<object>(CloseCommandImplementation));
 
         private void CloseCommandImplementation(object obj)
         {
@@ -102,7 +106,7 @@ namespace LaboratoryCSharp_2.ViewModels
             }
         }
 
-        public void BackCommandImplementation(object obj)
+        private void BackCommandImplementation(object obj)
         {
             NavigationManager.Instance.Navigate(ViewType.Registration);
         }

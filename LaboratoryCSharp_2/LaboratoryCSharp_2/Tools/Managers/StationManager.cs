@@ -12,7 +12,7 @@ namespace LaboratoryCSharp_2.Tools.Managers
         internal static INavigatable CurrentModel { get; set; }
         internal static void Initialize()
         {
-            CurrentPerson = new Person("a", "a", "a", DateTime.Today);
+            CurrentPerson = new Person("Person", "Default", "a.grm@ggg.vom", DateTime.Today);
         }
 
         internal static void CloseApp()
