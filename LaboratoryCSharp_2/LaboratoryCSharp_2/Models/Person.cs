@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Windows;
 using LaboratoryCSharp_2.Exceptions;
 
 namespace LaboratoryCSharp_2.Models
 {
+      [Serializable]
     internal class Person
     {
         private string _name;
@@ -15,12 +15,49 @@ namespace LaboratoryCSharp_2.Models
         private readonly string _sunSign;
         private readonly string _chineseSign;
         private readonly bool _isBirthday;
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+        public string Surname
+        {
+            get => _surname;
+            set => _surname = value;
+        }
+        public string Email
+        {
+            get => _email;
+            set
+            {
+               _email = value;
+            }
+        }
 
-        internal ref readonly bool IsAdult => ref _isAdult;
+        internal DateTime Birthday
+        {
+            get => _birthday;
+            set => _birthday = value;
 
-        internal ref readonly string SunSign => ref _sunSign;
+        }
+        public string BirthdayDate
+        {
+            get => _birthday.ToShortDateString();
+           
+        }
 
-        internal ref readonly string ChineseSign => ref _chineseSign;
+        public string IsBirthdayToday
+        {
+            get { return _isBirthday ? "+" : "-"; }
+            
+        }
+
+        public string Adult => _isAdult ? "+" : "-";
+        internal  ref readonly bool IsAdult => ref _isAdult;
+
+        public string SunSign =>  _sunSign;
+
+        public string ChineseSign =>  _chineseSign;
 
         internal ref readonly bool IsBirthday => ref _isBirthday;
 
@@ -47,6 +84,7 @@ namespace LaboratoryCSharp_2.Models
 
         }
 
+    
         private void InputValidation(DateTime? birthday, string email, string name, string surname)
         {
             if (birthday == null)
@@ -75,27 +113,7 @@ namespace LaboratoryCSharp_2.Models
                throw new IncorrectArgumentException("Input correct surname", surname);
         }
 
-        internal string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
-        internal string Surname
-        {
-            get => _surname;
-            set => _surname = value;
-        }
-        internal string Email
-        {
-            get => _email;
-            set => _email = value;
-        }
-        internal DateTime Birthday
-        {
-            get => _birthday;
-            set => _birthday = value;
     
-        }
 
         private int AgeCalculator(DateTime birthday)
         {

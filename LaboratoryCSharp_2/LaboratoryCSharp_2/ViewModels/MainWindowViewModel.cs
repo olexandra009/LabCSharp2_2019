@@ -38,7 +38,8 @@ namespace LaboratoryCSharp_2.ViewModels
         }
 
         public override void Refresher()
-        { 
+        {
         }
+
     }
 }

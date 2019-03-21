@@ -19,7 +19,7 @@ namespace LaboratoryCSharp_2.Tools.Navigation
             get { return _contentOwner; }
         }
 
-        internal Dictionary<ViewType, INavigatable> ViewsDictionary
+        public Dictionary<ViewType, INavigatable> ViewsDictionary
         {
             get { return _viewsDictionary; }
         }
@@ -29,11 +29,10 @@ namespace LaboratoryCSharp_2.Tools.Navigation
             if (!ViewsDictionary.ContainsKey(viewType))
                 InitializeView(viewType);
             ContentOwner.ContentControl.Content = ViewsDictionary[viewType];
-          
         }
 
         protected abstract void InitializeView(ViewType viewType);
 
     }
-
 }
+

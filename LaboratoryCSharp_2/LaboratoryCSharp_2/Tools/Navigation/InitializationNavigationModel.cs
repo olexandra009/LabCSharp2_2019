@@ -14,11 +14,12 @@ namespace LaboratoryCSharp_2.Tools.Navigation
         {
             switch (viewType)
             {
-                case ViewType.Information:
-                    ViewsDictionary.Add(viewType, new InformationControl());
-                    break;
+               
                 case ViewType.Registration:
                     ViewsDictionary.Add(viewType, new RegistrationUserControl());
+                    break;
+                case ViewType.ListOfUsers:
+                    ViewsDictionary.Add(viewType, new AllUsersListControl());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);

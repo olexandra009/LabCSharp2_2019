@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -104,6 +103,7 @@ namespace LaboratoryCSharp_2.ViewModels
                 {
 
                     StationManager.CurrentPerson = new Person(_name, _surname, _email, (DateTime) _birthday);
+                    StationManager.DataStorage.AddUser(StationManager.CurrentPerson);
                     Thread.Sleep(100);
                 }
                 catch (PersonBirthDateException exp)
@@ -128,60 +128,15 @@ namespace LaboratoryCSharp_2.ViewModels
             if (result)
             {
                 StationManager.CurrentModel.Refresher();
-                NavigationManager.Instance.Navigate(ViewType.Information);
+                NavigationManager.Instance.Navigate(ViewType.ListOfUsers);
                 if (StationManager.CurrentPerson.IsBirthday)
                     MessageBox.Show("Happy Birthday to you!");
             }
         }
 
-        private bool CorrectNameSurname()
-        {
-            if (String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_surname))
-            {
-                MessageBox.Show("Input correct name or surname");
-                return false;
-            }
+       
 
-            return true;
-        }
-
-        private bool CorrectEmail()
-        {
-            if (!new EmailAddressAttribute().IsValid(_email))
-            {
-                MessageBox.Show("Input correct email address");
-                return false;
-            }
-
-            return true;
-
-        }
-
-        private bool CorrectAge()
-        {
-            if (_birthday == null)
-            {
-                MessageBox.Show("Input your date of birthday");
-                return false;
-            }
-            if (_birthday > DateTime.Today)
-            {
-                MessageBox.Show("Input correct date of birthday");
-                return false;
-            }
-            DateTime last = new DateTime(DateTime.Today.Year - 135, DateTime.Today.Month, DateTime.Today.Day);
-            if (_birthday< last)
-            {
-                MessageBox.Show($"Sorry, you cannot be older than 135 years.{Environment.NewLine} Please, enter correct information about your birthday." +
-                                $"{Environment.NewLine}  (If you are vampire, please compute your year of birthday plus twelve while entered information will be correct)");
-                return false;
-            }
-
-            return true;
-    }
-
-
-        private bool CanExecute(object obj)
+       private bool CanExecute(object obj)
         {
             return !String.IsNullOrEmpty(_name) &&
                    !String.IsNullOrEmpty(_surname) &&
@@ -189,9 +144,27 @@ namespace LaboratoryCSharp_2.ViewModels
                    (_birthday != null);
         }
 
+        //public override void Refresher()
+        //{
+            
+        //}
         public override void Refresher()
         {
-            
+           
+            if (StationManager.CurrentPerson == null)
+            {
+                Name = "";
+                Surname = "";
+                Email = "";
+                Birthday = DateTime.Today;
+            }
+            else
+            {
+                Name = StationManager.CurrentPerson.Name;
+                Surname = StationManager.CurrentPerson.Surname;
+                Email = StationManager.CurrentPerson.Email;
+                Birthday = StationManager.CurrentPerson.Birthday;
+            }
         }
     }
 }

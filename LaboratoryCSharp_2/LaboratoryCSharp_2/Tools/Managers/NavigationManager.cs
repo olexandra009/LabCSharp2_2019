@@ -37,5 +37,6 @@ namespace LaboratoryCSharp_2.Tools.Managers
         {
             _navigationModel.Navigate(viewType);
         }
+
     }
 }

@@ -4,7 +4,7 @@ namespace LaboratoryCSharp_2.Tools.Navigation
     internal enum ViewType
     {
         Registration,
-        Information
+        ListOfUsers
     }
 
     interface INavigationModel
