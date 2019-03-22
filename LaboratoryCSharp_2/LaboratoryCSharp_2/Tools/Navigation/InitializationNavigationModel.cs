@@ -12,6 +12,7 @@ namespace LaboratoryCSharp_2.Tools.Navigation
 
         protected override void InitializeView(ViewType viewType)
         {
+           
             switch (viewType)
             {
                
@@ -20,6 +21,9 @@ namespace LaboratoryCSharp_2.Tools.Navigation
                     break;
                 case ViewType.ListOfUsers:
                     ViewsDictionary.Add(viewType, new AllUsersListControl());
+                    break;
+                case ViewType.Filtration:
+                    ViewsDictionary.Add(viewType, new FiltrationUserControl());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);

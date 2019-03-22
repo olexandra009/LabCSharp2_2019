@@ -8,12 +8,14 @@ namespace LaboratoryCSharp_2.Tools.Managers
 {
     internal static class StationManager
     {
-     
+
+        private static INavigatable[] _viewsNavigatables;
+
+        internal static INavigatable[] ViewsNavigatable
+        {
+            get => _viewsNavigatables;
+        }
         internal static Person CurrentPerson { get; set; }
-
-        internal static INavigatable CurrentModel { get; set; }
-        internal static INavigatable EditModel { get; set; }
-
 
         private static IDataStorage _dataStorage;
 
@@ -22,10 +24,10 @@ namespace LaboratoryCSharp_2.Tools.Managers
             get { return _dataStorage; }
         }
 
-        internal static void Initialize(IDataStorage dataStorage)
+        internal static void Initialize(IDataStorage dataStorage, int views)
         {
             CurrentPerson = new Person("Person", "Default", "a.grm@ggg.vom", DateTime.Today);
-
+            _viewsNavigatables = new INavigatable[views];
             _dataStorage = dataStorage;
             //DataStorage.AddUser(StationManager.CurrentPerson);
         }

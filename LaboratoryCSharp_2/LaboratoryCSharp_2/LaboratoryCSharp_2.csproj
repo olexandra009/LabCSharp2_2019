@@ -80,6 +80,7 @@
     <Compile Include="Tools\RelayCommand.cs" />
     <Compile Include="ViewModels\AllUsersListViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\FiltrationUserViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Tools\Navigation\BaseNavigationalModel.cs" />
     <Compile Include="Tools\Navigation\IContentOwner.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="Tools\Managers\NavigationManager.cs" />
     <Compile Include="Views\AllUsersListControl.xaml.cs">
       <DependentUpon>AllUsersListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FiltrationUserControl.xaml.cs">
+      <DependentUpon>FiltrationUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegistrationUserControl.xaml.cs">
       <DependentUpon>RegistrationUserControl.xaml</DependentUpon>
@@ -107,6 +111,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\AllUsersListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FiltrationUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

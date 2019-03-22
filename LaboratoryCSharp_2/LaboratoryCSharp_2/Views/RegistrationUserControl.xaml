@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500">
+             d:DesignHeight="500" d:DesignWidth="800">
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height ="5*"></RowDefinition>
@@ -20,16 +20,18 @@
             <ColumnDefinition Width="20*"></ColumnDefinition>
             <ColumnDefinition Width="80*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Create/Edit user" HorizontalAlignment="Center"></Label>
         <Label Grid.Row="1" Content="First name: " HorizontalAlignment="Left"   VerticalAlignment="Center" Width="102" />
         <Label Grid.Row="2" Grid.Column="0" Content="Last name: " HorizontalAlignment="Left"  VerticalAlignment="Center" Width="104"/>
         <Label Grid.Row="3" Grid.Column="0" Content="Email: " HorizontalAlignment="Left" VerticalAlignment="Center" Width="93"/>
         <Label Grid.Row="4" Grid.Column="0" Content="Birthday: " HorizontalAlignment="Left" VerticalAlignment="Center" Width="119"/>
-        <TextBox HorizontalAlignment="Left" Height="30"  Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="380" Text ="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        <TextBox HorizontalAlignment="Left" Height="30"  Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="380" Text ="{Binding Surname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        <TextBox HorizontalAlignment="Left" Height="30"  Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="380" Text ="{Binding Email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        <DatePicker Grid.Column="1" HorizontalAlignment="Left" Height="30" Grid.Row="4" VerticalAlignment="Center" Width="380" SelectedDate ="{Binding Birthday, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <TextBox HorizontalAlignment="Left" Height="30"  Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="580" Text ="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <TextBox HorizontalAlignment="Left" Height="30"  Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="580" Text ="{Binding Surname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <TextBox HorizontalAlignment="Left" Height="30"  Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="580" Text ="{Binding Email, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <DatePicker Grid.Column="1" HorizontalAlignment="Left" Height="30" Grid.Row="4" VerticalAlignment="Center" Width="580" SelectedDate ="{Binding Birthday, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <Button Content="Close" Grid.Column="1" HorizontalAlignment="Right"  Margin="0,0,20,0" Grid.Row="5" VerticalAlignment="Top" Width="68" Height ="30"  Command="{Binding CloseCommand}"/>
-        <Button Content="Proceed" Grid.Column="1" HorizontalAlignment="Right" Height="30" Margin ="0, 0, 100, 0"  Grid.Row="5" VerticalAlignment="Top" Width="68" Command="{Binding ProceedCommand, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Content="Save" Grid.Column="1" HorizontalAlignment="Right" Height="30" Margin ="0, 0, 100, 0"  Grid.Row="5" VerticalAlignment="Top" Width="68" Command="{Binding ProceedCommand, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Content="Back" Grid.Column="1" HorizontalAlignment="Right" Height="30" Margin ="0, 0, 180, 0"  Grid.Row="5" VerticalAlignment="Top" Width="68" Command="{Binding BackCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
     </Grid>
 </UserControl>

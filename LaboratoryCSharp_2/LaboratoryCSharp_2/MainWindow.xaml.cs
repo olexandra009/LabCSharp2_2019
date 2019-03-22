@@ -16,11 +16,8 @@ namespace LaboratoryCSharp_2
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
-            StationManager.Initialize(new SerializedDataStorage());
-            
+            StationManager.Initialize(new SerializedDataStorage(), 3);
             InitializeViews();
-            
-            
             NavigationManager.Instance.Navigate(ViewType.ListOfUsers);
          
         }
@@ -31,14 +28,15 @@ namespace LaboratoryCSharp_2
             NavigationManager.Instance.Initialize(owner);
             var infoModel = new AllUsersListControl();
             var registration = new RegistrationUserControl();
+            var filtration = new FiltrationUserControl();
             owner.ViewsDictionary.Add(ViewType.ListOfUsers, infoModel);
             owner.ViewsDictionary.Add(ViewType.Registration, registration);
-            StationManager.CurrentModel = infoModel;
-            StationManager.EditModel = registration;
+            owner.ViewsDictionary.Add(ViewType.Filtration, filtration);
+            StationManager.ViewsNavigatable[0] = infoModel;
+            StationManager.ViewsNavigatable[1] = registration;
+            StationManager.ViewsNavigatable[2] = filtration;
         }
 
-        public ContentControl ContentControl {
-            get { return _contentControl; }
-        }
+        public ContentControl ContentControl => _contentControl;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using LaboratoryCSharp_2.Models;
 using LaboratoryCSharp_2.Tools;
@@ -7,20 +8,46 @@ using LaboratoryCSharp_2.Tools.Navigation;
 
 namespace LaboratoryCSharp_2.ViewModels
 {
-    class AllUsersListViewModel: BaseViewModel
+   internal class AllUsersListViewModel: BaseViewModel
     {
+
+        #region Fields
         private ObservableCollection<Person> _users;
         private Person _selectedUser;
+        private int _selectedSortingType;
+        private bool _reverseSorting;
+        #endregion
 
+        #region Properties
         public Person SelectedUser
         {
-            get
-            {
-                return _selectedUser;
-            }
+            get => _selectedUser;
             set
             {
                 _selectedUser = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public int SelectedSortingType
+        {
+            get => _selectedSortingType;
+            set
+            {
+                _selectedSortingType = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+        public bool ReverseSorting
+        {
+            get => _reverseSorting;
+            set
+            {
+                _reverseSorting = value;
                 OnPropertyChanged();
             }
         }
@@ -35,61 +62,91 @@ namespace LaboratoryCSharp_2.ViewModels
             }
         }
 
+        #endregion
+        
+        #region Constructor
         internal AllUsersListViewModel()
         {
             _users = new ObservableCollection<Person>(StationManager.DataStorage.UsersList);
-
         }
+        #endregion
+
+        #region Commands
         private ICommand _createUserCommand;
         private ICommand _editUserCommand;
         private ICommand _deleteUserCommand;
+        private ICommand _sortingCommand;
+        private ICommand _filtrationCommand;
+        private ICommand _closeCommand;
 
-        public ICommand CreateUserCommand
+        public ICommand CreateUserCommand =>
+            _createUserCommand ?? (_createUserCommand =
+                new RelayCommand<object>(CreateUserCommandImplementation));
+
+        public ICommand DeleteUserCommand =>
+            _deleteUserCommand ?? (_deleteUserCommand =
+                new RelayCommand<object>(DeleteUserCommandImplementation));
+
+        public ICommand EditUserCommand =>
+            _editUserCommand ?? (_editUserCommand =
+                new RelayCommand<object>(EditUserCommandImplementation));
+
+        public ICommand SortingCommand =>
+            _sortingCommand ?? (_sortingCommand =
+                new RelayCommand<object>(SortingCommandImplementation));
+
+        public ICommand FiltrationCommand =>
+            _filtrationCommand ?? (_filtrationCommand =
+                new RelayCommand<object>(FiltrationCommandImplementation));
+
+        public ICommand CloseCommand =>
+            _closeCommand ?? (_closeCommand =
+                new RelayCommand<object>(CloseCommandImplementation));
+
+        #endregion
+        private void CloseCommandImplementation(object obj)
         {
-            get
-            {
-
-                return _createUserCommand ?? (_createUserCommand =
-                           new RelayCommand<object>(CreateUserCommandImplementation));
-            }
+           StationManager.CloseApp();
         }
-        public ICommand DeleteUserCommand
-        {
-            get
-            {
 
-                return _deleteUserCommand ?? (_deleteUserCommand =
-                           new RelayCommand<object>(DeleteUserCommandImplementation));
-            }
+        private void FiltrationCommandImplementation(object obj)
+        {
+            StationManager.ViewsNavigatable[2].Refresher();
+            NavigationManager.Instance.Navigate(ViewType.Filtration);
+
         }
-        public ICommand EditUserCommand
-        {
-            get
-            {
 
-                return _editUserCommand ?? (_editUserCommand =
-                           new RelayCommand<object>(EditUserCommandImplementation));
-            }
+        private void SortingCommandImplementation(object obj)
+        {
+            LoaderManager.Instance.ShowLoader();
+            StationManager.DataStorage.SortUser(SelectedSortingType, ReverseSorting);
+            StationManager.ViewsNavigatable[0].Refresher();
+            LoaderManager.Instance.HideLoader();
         }
 
         private void EditUserCommandImplementation(object obj)
         {
+            if (SelectedUser == null)
+            {
+                MessageBox.Show("You chose no user to edit");
+                return;
+            }
             StationManager.CurrentPerson = SelectedUser;
             StationManager.DataStorage.DeleteUser(SelectedUser);
-            StationManager.EditModel.Refresher();
+            StationManager.ViewsNavigatable[1].Refresher();
             NavigationManager.Instance.Navigate(ViewType.Registration);
         }
 
         private void DeleteUserCommandImplementation(object obj)
         {
            StationManager.DataStorage.DeleteUser(SelectedUser);
-           StationManager.CurrentModel.Refresher();
-       }
+           StationManager.ViewsNavigatable[0].Refresher();
+        }
 
         private void CreateUserCommandImplementation(object obj)
         {
             StationManager.CurrentPerson = null;
-            StationManager.EditModel.Refresher();
+            StationManager.ViewsNavigatable[1].Refresher();
             NavigationManager.Instance.Navigate(ViewType.Registration);
                 
          }

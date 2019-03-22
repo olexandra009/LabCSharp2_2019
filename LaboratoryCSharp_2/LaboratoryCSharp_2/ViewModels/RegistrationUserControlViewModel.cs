@@ -13,17 +13,17 @@ namespace LaboratoryCSharp_2.ViewModels
 {
     internal class RegistrationUserControlViewModel : BaseViewModel
     {
+        #region MyRegion
         private string _name;
         private string _surname;
         private string _email;
         private DateTime? _birthday;
+        #endregion
 
+        #region Properties
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
@@ -32,11 +32,7 @@ namespace LaboratoryCSharp_2.ViewModels
         }
         public string Surname
         {
-            get
-            {
-                return _surname;
-
-            }
+            get => _surname;
             set
             {
                 _surname = value;
@@ -45,10 +41,7 @@ namespace LaboratoryCSharp_2.ViewModels
         }
         public string Email
         {
-            get
-            {
-                return _email;
-             }
+            get => _email;
             set
             {
                 _email = value;
@@ -57,51 +50,51 @@ namespace LaboratoryCSharp_2.ViewModels
         }
         public DateTime? Birthday
         {
-            get
-            {
-                return _birthday;
-
-            }
+            get => _birthday;
             set
             {
                 _birthday = value;
                 OnPropertyChanged();
             }
         }
+        #endregion
+
+        
+        #region Commands
         private ICommand _proceedCommand;
         private ICommand _closeCommand;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                return _closeCommand ?? (_closeCommand = new RelayCommand<object>(CloseCommandImplementation));
-            }
-        }
+        private ICommand _backCommand;
+        public ICommand BackCommand => _backCommand ??
+                                        (_backCommand = new RelayCommand<object>(BackCommandImplementation));
 
+        public ICommand CloseCommand => _closeCommand ??
+                                        (_closeCommand = new RelayCommand<object>(CloseCommandImplementation));
+
+        public ICommand ProceedCommand =>
+            _proceedCommand ?? (_proceedCommand =
+                new RelayCommand<object>(ProceedCommandImplementation, CanExecute));
+
+        #endregion
+
+        private void BackCommandImplementation(object obj)
+        {
+          if(StationManager.CurrentPerson!=null)
+              StationManager.DataStorage.AddUser(StationManager.CurrentPerson);
+          StationManager.ViewsNavigatable[0].Refresher();
+          NavigationManager.Instance.Navigate(ViewType.ListOfUsers);
+        }
         private void CloseCommandImplementation(object obj)
         {
             StationManager.CloseApp();
         }
-        public ICommand ProceedCommand
-        {
-            get
-            {
-                
-                return _proceedCommand ?? (_proceedCommand =
-                           new RelayCommand<object>(ProceedCommandImplementation, CanExecute));
-            }
-        }
+        
         private async void ProceedCommandImplementation(object obj)
         {
             LoaderManager.Instance.ShowLoader();
             var result = await Task.Run(() =>
             {
-                // if (!CorrectAge()) return false;
-               //   if (!CorrectEmail()) return false;
-              //  if (!CorrectNameSurname()) return false;
-                try
+               try
                 {
-
                     StationManager.CurrentPerson = new Person(_name, _surname, _email, (DateTime) _birthday);
                     StationManager.DataStorage.AddUser(StationManager.CurrentPerson);
                     Thread.Sleep(100);
@@ -127,10 +120,8 @@ namespace LaboratoryCSharp_2.ViewModels
             LoaderManager.Instance.HideLoader();
             if (result)
             {
-                StationManager.CurrentModel.Refresher();
+                StationManager.ViewsNavigatable[0].Refresher();
                 NavigationManager.Instance.Navigate(ViewType.ListOfUsers);
-                if (StationManager.CurrentPerson.IsBirthday)
-                    MessageBox.Show("Happy Birthday to you!");
             }
         }
 
@@ -144,11 +135,7 @@ namespace LaboratoryCSharp_2.ViewModels
                    (_birthday != null);
         }
 
-        //public override void Refresher()
-        //{
-            
-        //}
-        public override void Refresher()
+       public override void Refresher()
         {
            
             if (StationManager.CurrentPerson == null)
